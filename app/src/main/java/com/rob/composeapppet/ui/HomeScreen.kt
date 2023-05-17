@@ -1,51 +1,53 @@
 package com.rob.composeapppet.ui
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Checkbox
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.Role.Companion.Checkbox
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun HomeScreen(
-    checked: State<Boolean>,
+fun ClickCounter(
+    uppercase: Boolean,
+    counterValue: Int,
+    onCounterClick: () -> Unit,
     onCheckedChange: (Boolean) -> Unit
 ) {
-    val checkedValue = checked.value
-    Row(verticalAlignment = CenterVertically) {
-        Checkbox(checked = checkedValue, onCheckedChange = onCheckedChange)
-        Text("Some checkbox text",  fontSize = 18.sp,  modifier = Modifier.clickable() { onCheckedChange(!checkedValue)})
-        OutlinedTextField(value = "привет", onValueChange = {})
-
+    val evenOdd = remember(uppercase) { EvenOdd(uppercase) }
+    Column() {
+        Text(
+            text = "Clicks: $counterValue ${evenOdd.check(counterValue)}",
+            modifier = Modifier.clickable(onClick = onCounterClick)
+        )
+        Row(verticalAlignment = CenterVertically) {
+            Checkbox(checked = uppercase, onCheckedChange = onCheckedChange)
+            Text(
+                "UpperCase",
+                fontSize = 18.sp,
+                modifier = Modifier.clickable() { onCheckedChange(!uppercase) })
+        }
+        Log.d(TAG, "ClickCounter(counter = $counterValue, uppercase = $uppercase), $evenOdd")
     }
+
+
 }
 
-//    Text(
-//        text = "Home screen",
-//        fontSize = 32.sp,
-//        color = Color.White,
-//        maxLines = 1,
-//        overflow = TextOverflow.Ellipsis,
-//        textAlign = TextAlign.Center,
-//        modifier = Modifier
-//            .background(color = Color.Black)
-//            .fillMaxWidth()
-//    )
-//    AsyncImage(
-//        model = "https://developer.android.com/images/android-go/next-billion-users_856.png",
-//        contentDescription = null
-//    )
+class EvenOdd(private val uppercase: Boolean) {
+    fun check(value: Int): String {
+        var result = if (value % 2 == 0) "even" else "odd"
+        if (uppercase) result = result.uppercase()
+        return result
+    }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun HomeScreenPreview() {
-//    HomeScreen()
-//}
+    override fun toString(): String {
+        return "EvenOdd(uppercase = $uppercase, hashcode = ${hashCode()})"
+    }
+}
