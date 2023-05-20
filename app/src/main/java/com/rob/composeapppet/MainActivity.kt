@@ -7,7 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.Preview
-import com.rob.composeapppet.ui.ClickCounter
+import com.rob.composeapppet.ui.HomeScreen
 import com.rob.composeapppet.ui.theme.ComposeAppPetTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,13 +16,7 @@ class MainActivity : ComponentActivity() {
         val upperCase = mutableStateOf(true)
         val counter = mutableStateOf(0)
         setContent {
-            ClickCounter(
-                uppercase = upperCase.value,
-                counterValue = counter.value,
-                onCounterClick = { counter.value++ },
-                onCheckedChange = { newCheckedValue ->
-                    upperCase.value = newCheckedValue
-                })
+           HomeScreen()
         }
     }
 }
