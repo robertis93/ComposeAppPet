@@ -1,5 +1,6 @@
 package com.rob.composeapppet.ui
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,7 +15,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun MovieInfoScreen(movieName: String, movieListViewModel: MovieListViewModel = viewModel()) {
     Text(
         text = movieName,
-        modifier = Modifier.padding(40.dp),
+        modifier = Modifier
+            .border(width = 2.dp, color = Color.DarkGray)
+            .padding(40.dp),
         style = TextStyle(fontSize = 30.sp, color = Color.Green)
     )
 }
